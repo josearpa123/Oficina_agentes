@@ -13,6 +13,8 @@
     "phone": "node scripts/phone.js",
     "make-icons": "node scripts/make-icons.js",
     "autostart:install": "node scripts/autostart.js install",
+    "autostart:start": "node scripts/autostart.js start",
+    "autostart:stop": "node scripts/autostart.js stop",
     "autostart:remove": "node scripts/autostart.js remove",
     "autostart:status": "node scripts/autostart.js status",
     "android:build": "node android/build.js",

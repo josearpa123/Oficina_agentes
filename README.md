@@ -53,15 +53,55 @@ Sin cambiar nada usa `config.example.json`. Para personalizar (salas, proyectos,
 Para no abrir una terminal cada vez:
 
 ```bash
-npm run autostart:install              # arranca oculto al iniciar sesión, y se reinicia solo si se cae (solo este PC)
+npm run autostart:install              # arranca oculto al iniciar sesión y se reinicia solo si se cae (solo este PC)
 npm run autostart:install -- --lan     # igual, pero escuchando en tu red local (celular por Wi-Fi, sin cifrar)
 npm run autostart:install -- --start   # además lo arranca ya, sin esperar al próximo inicio de sesión
 npm run autostart:status               # ¿instalado? ¿en marcha? ¿en qué dirección escucha?
-npm run autostart:remove               # lo quita y detiene el servidor supervisado
+npm run autostart:stop                 # lo detiene ahora (vuelve a arrancar en tu próximo inicio de sesión)
+npm run autostart:start                # lo arranca ahora
+npm run autostart:remove               # lo quita del todo y lo detiene
 ```
-Deja un pequeño `.vbs` en la carpeta *Inicio* de tu usuario (no requiere administrador) y el registro va a
-`data/server.log`. Si mueves el proyecto o cambias de versión de Node, vuelve a ejecutar `install`.
-Si ya tienes el servidor abierto a mano con `npm start`, ciérralo antes de activarlo (usan el mismo puerto).
+
+**Cómo funciona.** `install` compila en tu PC un pequeño lanzador llamado **`Oficina de Agentes.exe`** (su código está en
+[`scripts/launcher/OficinaLauncher.cs`](scripts/launcher/OficinaLauncher.cs); usa el compilador de .NET que ya trae
+Windows, no se descarga nada ni hay binarios en el repositorio) y crea un acceso directo en tu carpeta *Inicio*
+(no requiere administrador). El lanzador ejecuta el servidor sin ventana y lo reinicia 5 s después si se cae.
+Si mueves el proyecto o actualizas Node, vuelve a ejecutar `install`. Si tienes el servidor abierto a mano con
+`npm start`, ciérralo antes (usan el mismo puerto).
+
+### Dónde verlo y cómo apagarlo
+
+Aparece en el **Administrador de tareas** (`Ctrl + Shift + Esc`) con el nombre **Oficina de Agentes**:
+
+| Dónde | Qué ves | Para qué sirve |
+|---|---|---|
+| *Procesos* / *Detalles* | `Oficina de Agentes` (`Oficina de Agentes.exe`, el lanzador) y `Node.js JavaScript Runtime` (`node.exe`, el servidor) | **Finalizar tarea** en "Oficina de Agentes" detiene el servidor **ahora** (se lleva a `node.exe` con él). Volverá en tu próximo inicio de sesión |
+| *Aplicaciones de inicio* | `Oficina de Agentes` | **Deshabilitar** evita que arranque al iniciar sesión, sin borrar nada |
+
+Formas de apagarlo:
+
+1. **Solo por ahora:** Administrador de tareas → *Oficina de Agentes* → *Finalizar tarea* (o `npm run autostart:stop`).
+2. **Que no arranque al encender el PC:** Administrador de tareas → *Aplicaciones de inicio* → *Oficina de Agentes* →
+   *Deshabilitar* (o `npm run autostart:remove` para quitarlo por completo).
+3. **Manualmente:** borra `Oficina de Agentes.lnk` de la carpeta *Inicio* (`Win + R` → `shell:startup`) y finaliza la tarea.
+
+> Si solo finalizas `node.exe` y dejas el lanzador, este lo vuelve a levantar a los 5 segundos. Para detenerlo
+> de verdad, finaliza **Oficina de Agentes**.
+
+### Rutas predeterminadas
+
+| Qué | Dónde |
+|---|---|
+| **Dirección de la oficina** | `http://127.0.0.1:4317/` — necesita el token: `http://127.0.0.1:4317/?token=<tu token>` (puerto y host se cambian en `config.json`: `port`, `host`) |
+| Tu token | `data/token.txt` (se genera solo la primera vez; trátalo como una contraseña) |
+| Lanzador compilado | `data/Oficina de Agentes.exe` (dentro del proyecto; no se sube a git) |
+| Acceso directo de inicio | `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Oficina de Agentes.lnk` |
+| Registro del servidor | `data/server.log` (se rota solo al pasar de 2 MB → `server.log.old`) |
+| Historial y consumo | `data/office.db` (SQLite) |
+| Tu configuración | `config.json` (si no existe usa `config.example.json`) |
+| Hooks de Claude Code | `~/.claude/settings.json` (copia de seguridad: `settings.json.bak-agent-office`) |
+
+Para ver rápido el token y abrir la oficina: `type data\token.txt` y luego la dirección de arriba.
 
 ## Conectar tus agentes
 
