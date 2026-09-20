@@ -48,6 +48,21 @@ npm run demo           # (otra terminal) simula agentes para ver la oficina en a
 Sin cambiar nada usa `config.example.json`. Para personalizar (salas, proyectos, presupuestos…):
 `cp config.example.json config.json` y edítalo — `config.json` es tuyo y no se sube a git.
 
+## Que arranque solo (Windows)
+
+Para no abrir una terminal cada vez:
+
+```bash
+npm run autostart:install              # arranca oculto al iniciar sesión, y se reinicia solo si se cae (solo este PC)
+npm run autostart:install -- --lan     # igual, pero escuchando en tu red local (celular por Wi-Fi, sin cifrar)
+npm run autostart:install -- --start   # además lo arranca ya, sin esperar al próximo inicio de sesión
+npm run autostart:status               # ¿instalado? ¿en marcha? ¿en qué dirección escucha?
+npm run autostart:remove               # lo quita y detiene el servidor supervisado
+```
+Deja un pequeño `.vbs` en la carpeta *Inicio* de tu usuario (no requiere administrador) y el registro va a
+`data/server.log`. Si mueves el proyecto o cambias de versión de Node, vuelve a ejecutar `install`.
+Si ya tienes el servidor abierto a mano con `npm start`, ciérralo antes de activarlo (usan el mismo puerto).
+
 ## Conectar tus agentes
 
 | Agente | Cómo | Qué se ve |
