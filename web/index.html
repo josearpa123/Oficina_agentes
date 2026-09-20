@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e1f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Oficina">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <title>Oficina de Agentes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Oficina de Agentes</h1>
+    <span id="conn" class="conn off" title="Conexión con el servidor">sin conexión</span>
+  </header>
+  <nav id="projects" aria-label="Filtrar por proyecto"></nav>
+  <main>
+    <section class="stage">
+      <nav id="rooms" aria-label="Sala visible"></nav>
+      <canvas id="office" aria-label="Vista de la oficina"></canvas>
+    </section>
+    <aside>
+      <h2 class="first">Consumo por agente</h2>
+      <div id="quotas"></div>
+      <h2>Departamentos</h2>
+      <div id="depts"></div>
+      <h2>Actividad</h2>
+      <ul id="feed"></ul>
+    </aside>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

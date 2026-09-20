@@ -1,0 +1,24 @@
+{
+  "name": "agent-office",
+  "version": "0.1.0",
+  "description": "Oficina pixel-art para monitorear agentes de IA (Claude Code, Gemini, Copilot) por departamento",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "demo": "node scripts/demo.js",
+    "phone": "node scripts/phone.js",
+    "make-icons": "node scripts/make-icons.js",
+    "android:build": "node android/build.js",
+    "android:install": "node android/build.js --install",
+    "install-claude-hooks": "node scripts/install-claude-hooks.js",
+    "install-claude-statusline": "node scripts/install-claude-hooks.js --statusline",
+    "uninstall-claude-hooks": "node scripts/install-claude-hooks.js --remove"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

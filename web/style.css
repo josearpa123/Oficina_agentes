@@ -1,0 +1,99 @@
+:root {
+  --bg: #0b0e1f; --panel: #171b3a; --panel2: #1f2550; --line: #323a72;
+  --text: #eef0ff; --dim: #9aa2d6;
+  --working: #5fe0a0; --idle: #9aa2d6; --waiting: #ffd166; --exhausted: #ff6b7a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body {
+  font: 14px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; min-height: 100vh;
+  padding: 0 16px 24px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right));
+  background: radial-gradient(1200px 500px at 10% -10%, #2a1f6b55, transparent), radial-gradient(900px 500px at 100% 0%, #0d4f8a44, transparent), var(--bg);
+  background-attachment: fixed;
+}
+
+header { display: flex; align-items: center; gap: 12px; padding: 14px 0 6px; padding-top: max(14px, env(safe-area-inset-top)); }
+h1 { font-size: 18px; margin: 0; letter-spacing: .04em; text-transform: uppercase; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--dim); margin: 18px 0 8px; }
+h2.first { margin-top: 0; }
+.conn { font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); background: var(--panel); }
+.conn.on { color: var(--working); } .conn.off { color: var(--exhausted); }
+
+.server-btn { margin-left: auto; font: inherit; font-size: 12px; color: var(--dim); background: transparent; border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; }
+nav#projects { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 0 12px; }
+nav button {
+  font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+  padding: 4px 10px; cursor: pointer; min-height: 32px;
+}
+nav button:hover { background: var(--panel2); }
+nav#projects button[aria-pressed="true"] { background: #4a46c9; border-color: #8d86ff; }
+nav button small { color: var(--dim); margin-left: 4px; }
+
+main { display: grid; grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); gap: 16px; align-items: start; }
+
+.stage { border: 2px solid var(--line); background: #0a0c17; line-height: 0; box-shadow: 0 0 0 1px #000, 0 10px 40px #5a4bff22; }
+canvas { width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+
+/* pestañas de sala: solo en móvil */
+nav#rooms { display: none; }
+nav#rooms button { line-height: 1.4; border-color: var(--c); flex: 1 0 auto; }
+nav#rooms button[aria-pressed="true"] { background: var(--c); color: #0b0e1f; font-weight: 700; }
+nav#rooms button[aria-pressed="true"] small { color: #0b0e1fcc; }
+.pulse { display: inline-block; width: 7px; height: 7px; background: var(--working); margin-right: 6px; animation: blink 1s steps(2) infinite; }
+
+.dept, .quota { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--c); margin-bottom: 10px; }
+.dept > .head {
+  display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 45%, var(--panel2)), var(--panel2) 70%);
+}
+.dept > .head span { color: var(--text); opacity: .75; font-weight: 400; text-transform: none; }
+.empty { padding: 8px 10px; color: var(--dim); }
+.agent { padding: 8px 10px; border-top: 1px solid var(--line); }
+.agent.dim { opacity: .35; }
+.agent .top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.dot { width: 9px; height: 9px; background: var(--idle); flex: none; }
+.working .dot { background: var(--working); animation: blink 1s steps(2) infinite; }
+.waiting .dot { background: var(--waiting); animation: blink .6s steps(2) infinite; }
+.exhausted .dot { background: var(--exhausted); }
+@keyframes blink { 50% { opacity: .25; } }
+.agent .nm { font-weight: 700; }
+.chip { font-size: 11px; padding: 0 6px; border: 1px solid var(--line); color: var(--dim); }
+.agent .st { margin-left: auto; font-size: 12px; color: var(--dim); }
+.agent .task { margin-top: 4px; overflow-wrap: anywhere; }
+.agent .act { margin-top: 2px; color: var(--dim); font-size: 12px; overflow-wrap: anywhere; }
+.chip.use { color: var(--text); }
+
+.quota { padding: 8px 10px; }
+.quota .qh { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; color: var(--c); }
+.quota .qh span { color: var(--dim); font-weight: 400; font-size: 12px; text-align: right; }
+.quota .nums { color: var(--dim); font-size: 12px; margin-top: 2px; }
+.quota .nums b { color: var(--text); font-weight: 600; }
+.quota .lim { display: grid; grid-template-columns: 62px 1fr auto; gap: 8px; align-items: center; margin-top: 6px; font-size: 12px; }
+.quota .lim em { color: var(--dim); font-style: normal; grid-column: 2 / 4; margin-top: -4px; font-size: 11px; }
+.bar { height: 8px; background: #0b0e1f; border: 1px solid var(--line); }
+.bar i { display: block; height: 100%; background: var(--working); }
+.bar.mid i { background: var(--waiting); } .bar.high i { background: var(--exhausted); }
+.quota .none { color: var(--dim); font-size: 12px; margin-top: 6px; }
+
+#feed { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow: auto; border: 1px solid var(--line); background: var(--panel); }
+#feed li { padding: 4px 10px; border-top: 1px solid var(--line); font-size: 12px; display: flex; gap: 8px; }
+#feed li:first-child { border-top: 0; }
+#feed time { color: var(--dim); flex: none; }
+#feed b { flex: none; }
+#feed span { overflow-wrap: anywhere; color: var(--dim); }
+
+/* ---------- Celular ---------- */
+main > * { min-width: 0; }
+@media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) {
+  body { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(24px, env(safe-area-inset-bottom)); font-size: 13px; }
+  h1 { font-size: 15px; }
+  nav#projects { flex-wrap: nowrap; overflow-x: auto; margin: 0 -10px; padding: 6px 10px 10px; scrollbar-width: none; }
+  nav#projects button { flex: none; }
+  .stage { border-width: 1px; }
+  nav#rooms { display: flex; gap: 4px; padding: 6px; line-height: 1.4; background: #0a0c17; overflow-x: auto; scrollbar-width: none; }
+  nav#rooms button { min-height: 40px; }
+  .agent .st { margin-left: 0; width: 100%; }
+  #feed { max-height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) { .pulse, .working .dot, .waiting .dot { animation: none; } }

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oficina</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px 20px; background: #0b0e1f; color: #eef0ff; font: 16px/1.5 system-ui, sans-serif; }
+  h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: .04em; text-transform: uppercase; }
+  p { color: #9aa2d6; margin: 10px 0; }
+  code { background: #171b3a; padding: 1px 6px; color: #eef0ff; }
+  .err { background: #3a1420; border: 1px solid #ff6b7a; color: #ffb3bb; padding: 10px 12px; }
+  input { width: 100%; padding: 14px; margin: 12px 0 8px; background: #171b3a; color: #eef0ff; border: 1px solid #323a72; font: 15px ui-monospace, monospace; }
+  button { width: 100%; padding: 14px; margin-top: 8px; font: inherit; font-weight: 700; border: 0; background: #4a46c9; color: #fff; }
+  button.ghost { background: transparent; border: 1px solid #323a72; color: #9aa2d6; font-weight: 400; }
+  small { color: #9aa2d6; display: block; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <h1>Oficina de Agentes</h1>
+  <p id="err" class="err" hidden></p>
+  <p>Pega el enlace completo que muestra <code>npm run phone</code> en tu PC (incluye el <code>?token=…</code>).</p>
+  <input id="u" type="url" inputmode="url" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="https://mi-pc.tailnet.ts.net/?token=…">
+  <button id="go">Conectar</button>
+  <button id="retry" class="ghost" hidden>Reintentar con el enlace guardado</button>
+  <small>Tu PC tiene que estar encendido con <code>npm start</code>, y el teléfono debe poder llegar a él (Tailscale o la misma Wi-Fi).</small>
+<script>
+  var q = new URLSearchParams(location.search), err = q.get('err');
+  var box = document.getElementById('err'), input = document.getElementById('u');
+  if (err) { box.textContent = err; box.hidden = false; }
+  var saved = window.OficinaApp ? OficinaApp.current() : '';
+  if (saved) { input.value = saved; document.getElementById('retry').hidden = false; }
+  document.getElementById('go').onclick = function () {
+    var r = OficinaApp.save(input.value);
+    if (r) { box.textContent = r; box.hidden = false; }
+  };
+  document.getElementById('retry').onclick = function () { OficinaApp.retry(); };
+</script>
+</body>
+</html>

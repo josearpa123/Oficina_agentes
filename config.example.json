@@ -1,0 +1,81 @@
+{
+  "port": 4317,
+  "host": "127.0.0.1",
+  "departments": [
+    {
+      "id": "backend",
+      "name": "Backend",
+      "color": "#5b8def"
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend",
+      "color": "#e86ab0"
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "color": "#f2b84b"
+    },
+    {
+      "id": "qa",
+      "name": "QA",
+      "color": "#5fd18b"
+    }
+  ],
+  "agents": {
+    "claude": {
+      "name": "Claude",
+      "color": "#d97757",
+      "dept": "backend"
+    },
+    "gemini": {
+      "name": "Gemini",
+      "color": "#4f8cff",
+      "dept": "marketing"
+    },
+    "copilot": {
+      "name": "Copilot",
+      "color": "#a06cf0",
+      "dept": "qa"
+    }
+  },
+  "budgets": {},
+  "taskRoutes": [
+    {
+      "dept": "backend",
+      "match": "\\b(backend|back-end|api|apis|endpoints?|servidor|base de datos|database|sql|postgres\\w*|mongo\\w*|migracion\\w*|autenticacion|jwt|orm|graphql|microservicios?|docker|deploy|despliegue)\\b"
+    },
+    {
+      "dept": "frontend",
+      "match": "\\b(portafolio|portfolio|landing|frontend|front-end|interfaz|interfaces|ui|ux|css|html|tailwind|react|vue|svelte|maquet\\w*|responsive|diseno\\w*|disenar\\w*|pagina web|sitio web|boton\\w*|animacion\\w*|figma|navbar|header|footer|hero)\\b"
+    },
+    {
+      "dept": "marketing",
+      "match": "\\b(marketing|campana\\w*|copy|copywriting|seo|redes sociales|social media|posts?|newsletter|anuncios?|ads|publicidad|contenido|branding|embudo|funnel|instagram|tiktok|linkedin)\\b"
+    },
+    {
+      "dept": "qa",
+      "match": "\\b(qa|tests?|testing|pruebas?|e2e|cypress|playwright|jest|vitest|bugs?|regresion\\w*|cobertura|coverage|casos? de prueba|lint)\\b"
+    }
+  ],
+  "routes": [
+    {
+      "cwd": "/(frontend|web|ui|client|app)(/|$)",
+      "dept": "frontend"
+    },
+    {
+      "cwd": "/(marketing|campaign|content|social|seo)(/|$)",
+      "dept": "marketing"
+    },
+    {
+      "cwd": "/(qa|tests?|e2e|cypress|playwright)(/|$)",
+      "dept": "qa"
+    },
+    {
+      "cwd": "/(api|server|backend|services?|db)(/|$)",
+      "dept": "backend"
+    }
+  ],
+  "projects": []
+}

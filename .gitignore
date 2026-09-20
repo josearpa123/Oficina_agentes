@@ -1,0 +1,13 @@
+data/
+node_modules/
+android/build/
+android/keystore/
+
+# Configuración personal de cada quien (se parte de config.example.json)
+config.json
+
+# Archivos locales / temporales
+.claude/
+*.log
+.DS_Store
+Thumbs.db
